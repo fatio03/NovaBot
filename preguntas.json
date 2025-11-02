@@ -1,0 +1,832 @@
+{
+  "simbolos": [
+    {
+      "pregunta": "El símbolo ∪ significa:",
+      "opciones": [
+        "Complemento",
+        "Diferencia",
+        "Unión",
+        "Interseccion"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "El símbolo ∩ representa:",
+      "opciones": [
+        "Elementos que están en ambos conjuntos",
+        "Elementos que no están en ningún conjunto",
+        "Elementos que están en al menos uno de los conjuntos",
+        "Elementos del conjunto universal"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "El símbolo - representa:",
+      "opciones": [
+        "Complemento",
+        "Diferencia",
+        "Intersección",
+        "Unión"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "El complemento A′ se forma con:",
+      "opciones": [
+        "Los elementos que están en A y B",
+        "Los elementos del universo que no pertenecen a A",
+        "Los elementos de A duplicados",
+        "Los elementos que solo están en B"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "En un diagrama de Venn, fuera del círculo A pero dentro del universo:",
+      "opciones": [
+        "Complemento",
+        "Unión",
+        "Diferencia",
+        "Intersección"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "Si U = {1,2,3,4,5,6,7} y A = {2,4,6}, entonces A′ =",
+      "opciones": [
+        "{4,5,6,7}",
+        "{1,3,5,7}",
+        "{1,2,3}",
+        "{2,4,6}"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "En programación, el complemento se asocia con:",
+      "opciones": [
+        "Multiplicación",
+        "Suma",
+        "Negación lógica (NOT)",
+        "Operador OR"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "El operador lógico para unión de conjuntos en programación se asemeja a:",
+      "opciones": [
+        "&&",
+        "!",
+        "+=",
+        "||"
+      ],
+      "respuesta": 4
+    }
+  ],
+  "teoria_de_conjuntos": [
+    {
+      "pregunta": "¿Qué es un conjunto?",
+      "opciones": [
+        "Una variable dentro de un programa",
+        "Una lista de números ordenados",
+        "Una colección desordenada de elementos distintos",
+        "Una operación matemática entre dos números"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "La unión (A ∪ B) de dos conjuntos contiene:",
+      "opciones": [
+        "Todos los elementos de A y B sin repetir",
+        "Solo los elementos comunes",
+        "Los elementos que no están en A ni en B",
+        "Solo los elementos de A"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "La intersección (A ∩ B) representa:",
+      "opciones": [
+        "Los elementos que pertenecen solo a B",
+        "El conjunto universal",
+        "Los elementos que no están en A",
+        "Los elementos comunes entre A y B"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "La diferencia (A – B) contiene:",
+      "opciones": [
+        "El complemento de A",
+        "Los elementos que están en A pero no en B",
+        "Los elementos que están en B pero no en A",
+        "Los elementos comunes de A y B"
+        
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "El complemento A′ se forma con:",
+      "opciones": [
+        "Los elementos que solo están en B",
+        "Los elementos de A duplicados",
+        "Los elementos que están en A y B",
+        "Los elementos del universo que no pertenecen a A"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "Si B ⊆ A, significa:",
+      "opciones": [
+        "B es subconjunto de A",
+        "B no tiene relación con A",
+        "B contiene a A",
+        "B pertenece a A"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "Número total de subconjuntos de un conjunto con n elementos:",
+      "opciones": [
+        "n + 1",
+        "n²",
+        "n!",
+        "2ⁿ"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "El conjunto vacío (∅) es:",
+      "opciones": [
+        "No es subconjunto de ninguno",
+        "Subconjunto de todos los conjuntos",
+        "Subconjunto solo del conjunto universal",
+        "Un conjunto imposible"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Si A = {2, 9, 4, 7} y B = {7, 5, 9, 3}, ¿cuál es A ∪ B?",
+      "opciones": [
+        "{7, 9}",
+        "{2, 3, 4, 5, 7, 9}",
+        "{2, 4, 7, 9}",
+        "{3, 5, 9}"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Si A = {12, 8, 5, 3} y B = {5, 6, 8, 10}, ¿cuál es A ∩ B?",
+      "opciones": [
+        "{8, 10}",
+        "{3, 10}",
+        "{5, 8}",
+        "{6, 12}"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "Si A = {4, 1, 9, 7, 10} y B = {7, 8, 9, 11}, ¿cuál es A - B?",
+      "opciones": [
+        "{9, 10, 11}",
+        "{1, 7, 8}",
+        "{7, 8, 9}",
+        "{1, 4, 10}"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "El conjunto universal es U = {1, 2, 3, 4, 5, 6, 7, 8} y A = {2, 5, 7}. ¿Cuál es el complemento de A?",
+      "opciones": [
+        "{1, 2, 5, 8}",
+        "{1, 3, 4, 6, 8}",
+        "{3, 4, 5, 8}",
+        "{2, 5, 7}"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Si A = {rojo, verde, azul, violeta} y B = {verde, amarillo, violeta, gris}, ¿cuál es A ∩ B?",
+      "opciones": [
+        "{violeta}",
+        "{verde, violeta}",
+        "{verde, amarillo}",
+        "{azul, gris}"
+      ],
+      "respuesta": 2
+    }
+  ],
+  "tabla_de_verdad": [
+    {
+      "pregunta": "El valor V representa:",
+      "opciones": [
+        "Vacío",
+        "Valor nulo",
+        "Variable",
+        "Verdadero"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "El operador ¬ significa:",
+      "opciones": [
+        "Condicional",
+        "Negación",
+        "Conjunción",
+        "Disyunción"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "En la conjunción p ∧ q, el resultado es verdadero si:",
+      "opciones": [
+        "Ambas son verdaderas",
+        "Al menos una proposición es verdadera",
+        "Una es falsa",
+        "Siempre"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "En la disyunción p ∨ q, el resultado es falso solo si:",
+      "opciones": [
+        "Las dos son verdaderas",
+        "Una es falsa",
+        "Ambas son falsas",
+        "Una es verdadera"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "En el condicional p → q, es falso solo cuando:",
+      "opciones": [
+        "p = V y q = V",
+        "p = V y q = F",
+        "p = F y q = V",
+        "p = F y q = F"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "En el bicondicional p ↔ q, el resultado es verdadero cuando:",
+      "opciones": [
+        "p = q",
+        "Una es falsa",
+        "p ≠ q",
+        "Siempre es falso"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "El complemento equivale al operador:",
+      "opciones": [
+        "Y",
+        "O",
+        "NO (negación)",
+        "SI"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "Una tabla de verdad muestra:",
+      "opciones": [
+        "Las combinaciones posibles de valores V y F",
+        "Las funciones matemáticas",
+        "Los números pares",
+        "Las variables del programa"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "Completa la tabla para la operación P ∪ Q:\n\nP   Q   P ∪ Q\nV   F    ?",
+      "opciones": [
+        "V",
+        "F"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "Completa la tabla para la operación P ∩ Q:\n\nP   Q   P ∩ Q\nF   F    ?",
+      "opciones": [
+        "V",
+        "F"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Completa la tabla para la operación ¬P:\n\nP   ¬P\nV    ?",
+      "opciones": [
+        "F",
+        "V"
+      ],
+      "respuesta": 1
+    },
+    {
+  "pregunta": "En la proposición compuesta (p ∧ q) → r, el valor es falso solo cuando:",
+  "opciones": [
+    "p = F, q = V, r = V",
+    "p = F, q = F, r = F",
+    "p = V, q = F, r = V",
+    "p = V, q = V, r = F"
+  ],
+  "respuesta": 4
+},
+{
+  "pregunta": "En la expresión (~p ∨ q) ∧ r, el resultado será verdadero solo si:",
+  "opciones": [
+    "p = V, q = F, r = F",
+    "p = F, q = V, r = V",
+    "p = F, q = F, r = F",
+    "p = V, q = V, r = F"
+  ],
+  "respuesta": 2
+}
+  ],
+  "condicionales": [
+    {
+      "pregunta": "Un condicional permite:",
+      "opciones": [
+        "Crear subprogramas",
+        "Repetir un bloque de código varias veces",
+        "Declarar variables",
+        "Tomar decisiones según una condición"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "Estructura básica de un condicional en pseudocódigo:",
+      "opciones": [
+        "Desde… hasta…",
+        "Si… entonces… Finsi",
+        "Repetir… hasta que…",
+        "Mientras… hacer…"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Si la condición es falsa, en un condicional:",
+      "opciones": [
+        "Se ejecuta el bloque alternativo (SINO)",
+        "El programa se detiene",
+        "No se ejecuta ninguna acción",
+        "Se ejecuta el bloque principal"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "El operador lógico Y requiere que:",
+      "opciones": [
+        "Las dos condiciones sean falsas",
+        "Al menos una condición sea verdadera",
+        "Las dos condiciones sean verdaderas",
+        "Una sola sea falsa"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "El operador lógico O se cumple cuando:",
+      "opciones": [
+        "Solo si ambas son verdaderas",
+        "Ninguna condición es válida",
+        "Las dos condiciones son falsas",
+        "Al menos una condición es verdadera"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "En un condicional múltiple se usan:",
+      "opciones": [
+        "SI – SINO SI – SINO",
+        "MIENTRAS – HASTA",
+        "PARA – FINPARA",
+        "DESDE – CON PASO"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "El bloque FINSI indica:",
+      "opciones": [
+        "El final del condicional",
+        "El ciclo de repetición",
+        "Un error de sintaxis",
+        "El inicio del condicional"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "Ejemplo: Si edad >= 18 entonces escribir 'Mayor de edad', la condición evalúa:",
+      "opciones": [
+        "Si edad es distinta de 18",
+        "Si edad es menor que 18",
+        "Si edad es exactamente 18",
+        "Si edad es mayor o igual a 18"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "Escribir un programa que pida al usuario un número entero y muestre por pantalla si es par o impar.\n¿Cuál de las siguientes condiciones es correcta si la variable se llama N?",
+      "opciones": [
+        "Si N/2 = 0",
+        "Si N mod 2 = 0",
+        "Si N mod 2 == 0",
+        "Si N/2 == 0"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "Escribir un programa que determine si un número N es positivo.\n¿Cuál de las siguientes condiciones es la correcta?",
+      "opciones": [
+        "Si N >= 0",
+        "Si N > 0",
+        "Si N = 0",
+        "Si N <= 0"
+      ],
+      "respuesta": 2
+    },
+    {
+  "pregunta": "Escribir un programa que determine si un número N es múltiplo de 5. ¿Cuál de las siguientes condiciones es la correcta?",
+  "opciones": [
+    "Si N mod 5 == 0",
+    "Si N / 5 == 0",
+    "Si N == 5",
+    "Si N mod 5 != 0"
+  ],
+  "respuesta": 1
+    },
+
+    {
+      "pregunta": "Escribir un programa que determine si un número N es negativo.\n¿Cuál de las siguientes condiciones es la correcta?",
+      "opciones": [
+        "Si N < 0",
+        "Si N <= 0",
+        "Si N > 0",
+        "Si N == 0"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "Escribir un programa que determine si un número N es mayor o igual a 100.\n¿Cuál de las siguientes condiciones es la correcta?",
+      "opciones": [
+        "Si N = 100",
+        "Si N => 100",
+        "Si N >= 100",
+        "Si N >== 100"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "Escribir un programa que determine si un número N es primo.\n¿Cuál de las siguientes condiciones sería correcta?",
+      "opciones": [
+        "Si N mod i == 0 entonces no es primo",
+        "Si N mod 2 == 0 entonces es primo",
+        "Si N/2 == 1 entonces es primo",
+        "Si N == 1 entonces es primo"
+      ],
+      "respuesta": 1
+    }
+  ],
+  "ciclos": [
+    {
+      "pregunta": "Un ciclo permite:",
+      "opciones": [
+        "Repetir acciones varias veces",
+        "Declarar variables",
+        "Ejecutar una acción una sola vez",
+        "Tomar decisiones únicas"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "Qué tipo de ciclo se ejecuta al menos una vez:",
+      "opciones": [
+        "REPETIR – HASTA",
+        "SI – SINO",
+        "DESDE",
+        "MIENTRAS"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "El ciclo MIENTRAS se ejecuta:",
+      "opciones": [
+        "Hasta que el usuario lo detenga",
+        "Exactamente 10 veces",
+        "Siempre al menos una vez",
+        "Solo si la condición es verdadera desde el inicio"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "El ciclo DESDE / PARA se usa cuando:",
+      "opciones": [
+        "Se conoce la cantidad exacta de repeticiones",
+        "Se evalúa una sola vez",
+        "No hay condiciones",
+        "No se sabe cuántas repeticiones habrá"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "En el ejemplo 'Mientras contador <= 5 hacer…', el ciclo termina cuando:",
+      "opciones": [
+        "Siempre se repite",
+        "Contador > 5",
+        "Contador = 5",
+        "Contador = 0"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "El ciclo REPETIR – HASTA verifica la condición:",
+      "opciones": [
+        "Nunca",
+        "Después de ejecutar",
+        "Antes de ejecutar",
+        "Solo si el usuario lo pide"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Los ciclos hacen el código:",
+      "opciones": [
+        "Más corto y flexible",
+        "Más largo",
+        "Inútil",
+        "Más confuso"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "En un algoritmo, los ciclos son útiles para:",
+      "opciones": [
+        "Definir variables",
+        "Evitar condiciones",
+        "Automatizar tareas repetitivas",
+        "Escribir texto"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "Escribir un algoritmo que muestre los números del 1 al 10. ¿Qué ciclo usarías?",
+      "opciones": [
+        "repetir hasta que i > 10",
+        "desde i <- 1 hasta 10 hacer",
+        "mientras i < 10 hacer",
+        "desde 10 hasta 1 hacer"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Si queremos que un algoritmo repita una acción hasta que una condición se cumpla, ¿qué estructura se usa?",
+      "opciones": [
+        "desde ... hasta ...",
+        "si ... entonces ...",
+        "mientras",
+        "repetir ... hasta que"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "¿Cuál de los siguientes ciclos se ejecuta al menos una vez, sin importar la condición?",
+      "opciones": [
+        "desde ... hasta ...",
+        "repetir ... hasta que",
+        "mientras ... hacer",
+        "si ... entonces ..."
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Completa: Para sumar los números del 1 al 100, se puede usar:\n________ i <- 1 hasta 100 hacer\n    suma <- suma + i",
+      "opciones": [
+        "desde",
+        "repetir",
+        "mientras",
+        "hasta"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "¿Qué estructura usarías para leer números hasta que el usuario ingrese un 0?",
+      "opciones": [
+        "repetir\n    leer N\nhasta que N = 0",
+        "desde N <- 1 hasta 0 hacer",
+        "mientras N = 0 hacer",
+        "si N = 0 entonces"
+      ],
+      "respuesta": 1
+    }
+  ],
+  "subprogramas": [
+    {
+      "pregunta": "Un programa es:",
+      "opciones": [
+        "Una condición lógica",
+        "Una parte pequeña del código",
+        "Un conjunto de instrucciones para resolver un problema",
+        "Un conjunto vacío"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "Un subprograma es:",
+      "opciones": [
+        "Un error del programa",
+        "Una variable",
+        "Una parte del programa que cumple una función específica",
+        "Una entrada de datos"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "Ventajas de usar subprogramas:",
+      "opciones": [
+        "No devuelven resultados",
+        "Reutilización y claridad del código",
+        "Repetición innecesaria de código",
+        "Dificultan el mantenimiento"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Un procedimiento es un subprograma que:",
+      "opciones": [
+        "Solo ejecuta acciones",
+        "Es el programa principal",
+        "No se puede usar",
+        "Devuelve un valor"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "Una función se diferencia porque:",
+      "opciones": [
+        "Solo imprime texto",
+        "Se ejecuta sola",
+        "Devuelve un valor específico",
+        "No devuelve ningún valor"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "En un programa principal, los subprogramas:",
+      "opciones": [
+        "No se pueden llamar",
+        "Se repiten infinitamente",
+        "Se llaman cuando son necesarios",
+        "Se ejecutan automáticamente"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "Subprograma Subcirculo calcula:",
+      "opciones": [
+        "Circunferencia",
+        "Área del círculo",
+        "Diámetro",
+        "Perímetro del círculo"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Subprograma Subcuadrado calcula:",
+      "opciones": [
+        "Volumen",
+        "Raíz cuadrada",
+        "Área del cuadrado",
+        "Perímetro del cuadrado"
+      ],
+      "respuesta": 3
+    }
+  ],
+  "vectores": [
+    {
+      "pregunta": "Un vector es:",
+      "opciones": [
+        "Una función matemática",
+        "Un número aleatorio",
+        "Una lista de elementos del mismo tipo",
+        "Una variable que almacena un solo valor"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "El índice de un vector empieza generalmente en:",
+      "opciones": [
+        "1",
+        "Cualquier número",
+        "0",
+        "Depende del lenguaje"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "Acceder al tercer elemento de un vector en muchos lenguajes se hace con:",
+      "opciones": [
+        "vector(3)",
+        "vector[3]",
+        "vector[2]",
+        "vector.3"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "Recorrer un vector se hace normalmente con:",
+      "opciones": [
+        "Un condicional",
+        "Un ciclo",
+        "Un subprograma",
+        "Una variable"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Modificar un elemento de un vector se hace usando:",
+      "opciones": [
+        "Asignación",
+        "Condicional",
+        "Bucle infinito",
+        "Comparación"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "El tamaño de un vector se obtiene con:",
+      "opciones": [
+        "size",
+        "length",
+        "Todas las anteriores dependiendo del lenguaje",
+        "count"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "Los vectores permiten:",
+      "opciones": [
+        "Almacenar datos heterogéneos",
+        "Almacenar múltiples valores del mismo tipo",
+        "Ejecutar código",
+        "Condicionales"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Un vector vacío tiene:",
+      "opciones": [
+        "Un elemento nulo",
+        "Ningún elemento",
+        "Un valor aleatorio",
+        "Todos los elementos iguales"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "Escribir un algoritmo que lea 10 números y los guarde en un vector llamado V. ¿Cuál sería la estructura correcta?",
+      "opciones": [
+        "repetir i <- 1 hasta 10 leer V[i]",
+        "desde i <- 1 hasta 10 hacer leer V[i]",
+        "mientras i < 10 hacer leer V[i]",
+        "leer V[i] mientras i <= 10"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "¿Qué instrucción permite acceder al quinto elemento del vector A?",
+      "opciones": [
+        "A[5]",
+        "A(5)",
+        "A5",
+        "A{5}"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "Si queremos mostrar los elementos de un vector N de tamaño 8, ¿cuál de las siguientes estructuras es correcta?",
+      "opciones": [
+        "repetir escribir N[i] hasta que i = 8",
+        "mientras i <= 8 escribir N",
+        "si i <= 8 entonces escribir N[i]",
+        "desde i <- 1 hasta 8 hacer escribir N[i]"
+      ],
+      "respuesta": 4
+    },
+    {
+      "pregunta": "Para sumar todos los valores de un vector X de 5 elementos, ¿cuál es la forma correcta?",
+      "opciones": [
+        "mientras i <= 5 hacer suma <- X[i]",
+        "repetir suma <- suma + i hasta que i > 5",
+        "desde i <- 1 hasta 5 hacer suma <- suma + X[i]",
+        "desde X[i] <- 1 hasta 5 hacer suma <- suma + i"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "¿Qué hace la siguiente instrucción?  leer V[3]",
+      "opciones": [
+        "lee el tercer elemento del vector V",
+        "muestra todos los valores del vector",
+        "borra el contenido del vector",
+        "crea un nuevo vector con tres posiciones"
+      ],
+      "respuesta": 1
+    }
+  ]
+}

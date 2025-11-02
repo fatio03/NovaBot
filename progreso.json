@@ -1,0 +1,22 @@
+{
+  "1018176022547533964": {
+    "modulo": "condicionales",
+    "indice": 13,
+    "puntos": 11,
+    "finalizado": true,
+    "canalId": null
+  },
+  "1400541206454468619": {
+    "modulo": "simbolos",
+    "indice": 0,
+    "puntos": 0,
+    "finalizado": false
+  },
+  "755923520336298045": {
+    "modulo": "simbolos",
+    "indice": 2,
+    "puntos": 1,
+    "finalizado": false,
+    "canalId": "1433586153906376736"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "755923520336298045": {
+    "id": "755923520336298045",
+    "moduloActual": 2,
+    "nombreModuloActual": "tabla_de_verdad",
+    "modulos": {
+      "simbolos": {
+        "puntaje": 100,
+        "aprobado": true,
+        "ultimoIntento": "2025-10-23"
+      },
+      "teoria_de_conjuntos": {
+        "puntaje": 75,
+        "aprobado": true,
+        "ultimoIntento": "2025-10-23"
+      },
+      "tabla_de_verdad": {
+        "puntaje": 25,
+        "aprobado": false,
+        "ultimoIntento": "2025-10-23"
+      },
+      "condicionales": {
+        "puntaje": null,
+        "aprobado": false,
+        "ultimoIntento": ""
+      },
+      "ciclos": {
+        "puntaje": null,
+        "aprobado": false,
+        "ultimoIntento": ""
+      },
+      "subprogramas": {
+        "puntaje": null,
+        "aprobado": false,
+        "ultimoIntento": ""
+      },
+      "vectores": {
+        "puntaje": null,
+        "aprobado": false,
+        "ultimoIntento": ""
+      }
+    },
+    "examenEnCurso": false
+  },
+  "1400541206454468619": {
+    "id": "1400541206454468619",
+    "moduloActual": 0,
+    "nombreModuloActual": "simbolos",
+    "modulos": {
+      "simbolos": {
+        "puntaje": 0,
+        "aprobado": false,
+        "ultimoIntento": "2025-10-23"
+      },
+      "teoria_de_conjuntos": {
+        "puntaje": null,
+        "aprobado": false,
+        "ultimoIntento": ""
+      },
+      "tabla_de_verdad": {
+        "puntaje": null,
+        "aprobado": false,
+        "ultimoIntento": ""
+      },
+      "condicionales": {
+        "puntaje": null,
+        "aprobado": false,
+        "ultimoIntento": ""
+      },
+      "ciclos": {
+        "puntaje": null,
+        "aprobado": false,
+        "ultimoIntento": ""
+      },
+      "subprogramas": {
+        "puntaje": null,
+        "aprobado": false,
+        "ultimoIntento": ""
+      },
+      "vectores": {
+        "puntaje": null,
+        "aprobado": false,
+        "ultimoIntento": ""
+      }
+    },
+    "examenEnCurso": false
+  }
+}
