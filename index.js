@@ -28,7 +28,7 @@ function guardarProgreso() {
 }
 
 // 📖 Enviar pregunta actual
-function enviarPregunta(msg, id) {
+async function enviarPregunta(canal, id) {
   const { modulo, indice } = progreso[id];
   const pregunta = PREGUNTAS[modulo][indice];
   let opcionesTexto = '';
@@ -37,110 +37,155 @@ function enviarPregunta(msg, id) {
     opcionesTexto += `${i + 1}. ${op}\n`;
   });
 
-  msg.reply(`**${pregunta.pregunta}**\n${opcionesTexto}\nResponde con el número de la opción correcta.`);
+  await canal.send(`**${pregunta.pregunta}**\n${opcionesTexto}\nResponde con el número de la opción correcta.`);
 }
 
-// 🧩 Avanzar pregunta o pasar al siguiente módulo (CORREGIDO)
-function avanzarPregunta(msg, id) {
+// 🧩 Avanzar pregunta o pasar al siguiente módulo
+async function avanzarPregunta(canal, id, usuario) {
   const { modulo, indice, puntos } = progreso[id];
   const preguntas = PREGUNTAS[modulo];
   const siguiente = preguntas[indice + 1];
 
-  // 🟡 Si no hay más preguntas, pasar al siguiente módulo
+  // Si no hay más preguntas, pasar al siguiente módulo
   if (!siguiente) {
     const modulos = Object.keys(PREGUNTAS);
     const actualIndex = modulos.indexOf(modulo);
     const siguienteModulo = modulos[actualIndex + 1];
 
+    // 🎯 Roles por módulo (nombres reales de tu servidor)
+    const roles = {
+      simbolos: "Módulo 1 - Símbolos",
+      teoria_de_conjuntos: "Módulo 2 - Teoría de Conjuntos",
+      tabla_de_verdad: "Módulo 3 - Tabla de Verdad",
+      condicionales: "Módulo 4 - Condicionales",
+      ciclos: "Módulo 5 - Ciclos",
+      subprogramas: "Módulo 6 - Subprogramas",
+      vectores: "Módulo 7 - Vectores"
+    };
+
+    const guildMember = await canal.guild.members.fetch(usuario.id);
+
+    // Asignar rol del módulo actual
+    const rolActual = roles[modulo];
+    if (rolActual) {
+      const rol = canal.guild.roles.cache.find(r => r.name === rolActual);
+      if (rol) await guildMember.roles.add(rol).catch(() => {});
+    }
+
     if (siguienteModulo) {
-      msg.reply(`✅ ¡Completaste el módulo **${modulo}** con ${puntos}/${preguntas.length} puntos!\n➡️ Ahora comienza el siguiente módulo: **${siguienteModulo}**`);
+      await canal.send(`✅ ¡Completaste el módulo **${modulo}** con ${puntos}/${preguntas.length} puntos!`);
+      await canal.send(`🏅 Se te ha asignado el rol **${roles[modulo]}**.`);
+      await canal.send(`⏳ Avanzando al siguiente módulo **${siguienteModulo}** en 5 segundos...`);
+
       progreso[id] = { modulo: siguienteModulo, indice: 0, puntos: 0 };
       guardarProgreso();
 
-      // Esperar 2 segundos y mandar la primera pregunta del nuevo módulo
-      setTimeout(() => {
-        enviarPregunta(msg, id);
-      }, 2000);
+      setTimeout(async () => {
+        await canal.delete().catch(() => {});
+        const nuevoCanal = await canal.guild.channels.create({
+          name: `examen-${usuario.username}`,
+          type: 0,
+          permissionOverwrites: [
+            {
+              id: canal.guild.roles.everyone.id,
+              deny: [PermissionsBitField.Flags.ViewChannel]
+            },
+            {
+              id: usuario.id,
+              allow: [
+                PermissionsBitField.Flags.ViewChannel,
+                PermissionsBitField.Flags.SendMessages,
+                PermissionsBitField.Flags.ReadMessageHistory
+              ]
+            },
+            {
+              id: client.user.id,
+              allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages]
+            }
+          ]
+        });
+
+        await nuevoCanal.send(`🧩 ${usuario} bienvenido al siguiente módulo: **${siguienteModulo}**`);
+        enviarPregunta(nuevoCanal, id);
+      }, 5000);
     } else {
-      // Si ya no hay más módulos, finalizar examen
-      msg.reply(`🏁 ¡Examen finalizado por completo! Puntuación total: ${puntos}/${preguntas.length}`);
+      await canal.send(`🏁 ¡Examen finalizado por completo! Puntuación total: ${puntos}/${preguntas.length}`);
+      await canal.send(`🎉 Felicitaciones ${usuario.username}, completaste todos los módulos.`);
       delete progreso[id];
       guardarProgreso();
+      await canal.send('🕒 Este canal se eliminará en 30 segundos...');
+      setTimeout(() => canal.delete().catch(() => {}), 30000);
     }
-
     return;
   }
 
-  // 🟢 Si todavía hay preguntas pendientes, avanzar normalmente
+  // Si hay más preguntas
   progreso[id].indice++;
   guardarProgreso();
-  enviarPregunta(msg, id);
+  enviarPregunta(canal, id);
 }
 
 // 🎮 Evento principal
 client.on('messageCreate', async (msg) => {
   if (msg.author.bot) return;
-
   const id = msg.author.id;
   const contenido = msg.content.trim().toLowerCase();
 
-  // ⚙️ Comando para reiniciar progreso (solo admins)
-  if (contenido.startsWith('!reset')) {
-    if (!msg.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
-      msg.reply('❌ No tienes permiso para usar este comando.');
-      return;
-    }
-
-    const mencionado = msg.mentions.users.first();
-    if (!mencionado) {
-      msg.reply('⚠️ Debes mencionar a un usuario. Ejemplo: `!reset @usuario`');
-      return;
-    }
-
-    if (progreso[mencionado.id]) {
-      delete progreso[mencionado.id];
-      guardarProgreso();
-      msg.reply(`🔁 Se reinició el progreso de **${mencionado.username}**.`);
-    } else {
-      msg.reply(`ℹ️ **${mencionado.username}** no tenía progreso registrado.`);
-    }
-
-    return;
-  }
-
-  // 📘 Comando para iniciar examen
+  // ✅ Comando para iniciar examen
   if (contenido.startsWith('!examen')) {
     if (progreso[id]) {
-      msg.reply(`📘 Continuando tu examen del módulo **${progreso[id].modulo}**.`);
-      enviarPregunta(msg, id);
+      msg.reply('📘 Ya tenés un examen en curso. Terminá ese primero.');
       return;
     }
 
-    // Iniciar desde el primer módulo
     const primerModulo = Object.keys(PREGUNTAS)[0];
     progreso[id] = { modulo: primerModulo, indice: 0, puntos: 0 };
     guardarProgreso();
-    msg.reply(`🧩 Iniciando examen del módulo **${primerModulo}**.`);
-    enviarPregunta(msg, id);
+
+    const canal = await msg.guild.channels.create({
+      name: `examen-${msg.author.username}`,
+      type: 0,
+      permissionOverwrites: [
+        {
+          id: msg.guild.roles.everyone.id,
+          deny: [PermissionsBitField.Flags.ViewChannel]
+        },
+        {
+          id: msg.author.id,
+          allow: [
+            PermissionsBitField.Flags.ViewChannel,
+            PermissionsBitField.Flags.SendMessages,
+            PermissionsBitField.Flags.ReadMessageHistory
+          ]
+        },
+        {
+          id: client.user.id,
+          allow: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages]
+        }
+      ]
+    });
+
+    await canal.send(`👋 ¡Hola ${msg.author}! Este es tu canal privado para el examen del módulo **${primerModulo}**.`);
+    enviarPregunta(canal, id);
     return;
   }
 
-  // 📚 Comprobación de respuesta durante el examen
-  if (progreso[id]) {
+  // 📚 Respuestas dentro de un canal de examen
+  if (msg.channel.name.startsWith('examen-') && progreso[id]) {
     const { modulo, indice } = progreso[id];
     const pregunta = PREGUNTAS[modulo][indice];
     const respuesta = msg.content.trim();
 
     if (respuesta === pregunta.respuesta.toString()) {
       progreso[id].puntos++;
-      msg.reply('✅ ¡Correcto!');
+      await msg.channel.send('✅ ¡Correcto!');
     } else {
       const correcta = pregunta.opciones[parseInt(pregunta.respuesta) - 1];
-      msg.reply(`❌ Incorrecto. La respuesta era: ${correcta}`);
+      await msg.channel.send(`❌ Incorrecto. La respuesta era: ${correcta}`);
     }
 
     guardarProgreso();
-    setTimeout(() => avanzarPregunta(msg, id), 2000);
+    setTimeout(() => avanzarPregunta(msg.channel, id, msg.author), 2000);
   }
 });
 
