@@ -11,10 +11,8 @@ const client = new Client({
   ]
 });
 
-// Archivos base
 const PREGUNTAS = JSON.parse(fs.readFileSync("preguntas.json", "utf8"));
 const PROGRESO_FILE = "progreso.json";
-
 let progreso = fs.existsSync(PROGRESO_FILE)
   ? JSON.parse(fs.readFileSync(PROGRESO_FILE, "utf8"))
   : {};
@@ -23,7 +21,7 @@ function guardarProgreso() {
   fs.writeFileSync(PROGRESO_FILE, JSON.stringify(progreso, null, 2));
 }
 
-// Roles reales del servidor
+// Roles de módulos reales
 const ROLES = {
   simbolos: "Módulo 1 - Símbolos",
   teoria_de_conjuntos: "Módulo 2 - Teoría de Conjuntos",
@@ -38,15 +36,11 @@ const ROLES = {
 function enviarPregunta(canal, id) {
   const { modulo, indice } = progreso[id];
   const pregunta = PREGUNTAS[modulo][indice];
-  let opcionesTexto = "";
-
+  let opciones = "";
   pregunta.opciones.forEach((op, i) => {
-    opcionesTexto += `${i + 1}. ${op}\n`;
+    opciones += `${i + 1}. ${op}\n`;
   });
-
-  canal.send(
-    `**${pregunta.pregunta}**\n${opcionesTexto}\n✏️ Responde con el número de la opción correcta.`
-  );
+  canal.send(`**${pregunta.pregunta}**\n${opciones}\n✏️ Responde con el número de la opción correcta.`);
 }
 
 // Crear canal privado
@@ -76,167 +70,151 @@ async function crearCanalPrivado(guild, usuario) {
       },
     ],
   });
-
   return canal;
 }
 
-// Evento principal
+// Lógica principal
 client.on("messageCreate", async (msg) => {
   if (msg.author.bot) return;
-
   const id = msg.author.id;
   const contenido = msg.content.trim().toLowerCase();
 
-  // ========================
+  // ===============================
   // !examen
-  // ========================
+  // ===============================
   if (contenido.startsWith("!examen")) {
     if (!progreso[id]) {
       const primerModulo = Object.keys(PREGUNTAS)[0];
-      progreso[id] = {
-        modulo: primerModulo,
-        indice: 0,
-        puntos: 0,
-        canalId: null,
-        bloqueadoHasta: null
-      };
+      progreso[id] = { modulo: primerModulo, indice: 0, puntos: 0, canalId: null };
       guardarProgreso();
     }
 
     const usuario = msg.author;
-    const userData = progreso[id];
-
-    if (userData.bloqueadoHasta && Date.now() < userData.bloqueadoHasta) {
-      const falta = Math.ceil((userData.bloqueadoHasta - Date.now()) / 3600000);
-      msg.reply(`⏳ Aún no puedes volver a intentar. Faltan ${falta} h.`);
-      return;
-    }
-
     let canal;
-    if (userData.canalId) {
-      canal = msg.guild.channels.cache.get(userData.canalId);
-      if (!canal) userData.canalId = null;
+
+    // Crear canal privado
+    if (progreso[id].canalId) {
+      canal = msg.guild.channels.cache.get(progreso[id].canalId);
+      if (!canal) progreso[id].canalId = null;
     }
 
-    if (!userData.canalId) {
+    if (!progreso[id].canalId) {
       canal = await crearCanalPrivado(msg.guild, usuario);
-      userData.canalId = canal.id;
+      progreso[id].canalId = canal.id;
       guardarProgreso();
-      canal.send(`👋 ¡Hola ${usuario.username}! Este es tu canal privado de examen del módulo **${userData.modulo}**.`);
+      canal.send(`👋 ¡Hola ${usuario.username}! Este es tu canal privado de examen del módulo **${progreso[id].modulo}**.`);
       enviarPregunta(canal, id);
     } else {
-      canal.send(`🔄 Continuando examen del módulo **${userData.modulo}**.`);
+      canal.send(`🔄 Continuando tu examen del módulo **${progreso[id].modulo}**.`);
       enviarPregunta(canal, id);
     }
     return;
   }
 
-  // ========================
-  // !reset @usuario
-  // ========================
+  // ===============================
+  // !reset
+  // ===============================
   if (contenido.startsWith("!reset") && msg.member.permissions.has("Administrator")) {
     const usuarioMencionado = msg.mentions.users.first();
-    if (!usuarioMencionado) return msg.reply("❌ Debes mencionar a un usuario.");
+    if (!usuarioMencionado) return msg.reply("❌ Debes mencionar un usuario.");
     delete progreso[usuarioMencionado.id];
     guardarProgreso();
-    return msg.reply(`♻️ El progreso de ${usuarioMencionado.username} fue reiniciado.`);
+    return msg.reply(`♻️ Progreso de ${usuarioMencionado.username} reiniciado.`);
   }
 
-  // ========================
-  // !puntaje @usuario @modulo
-  // ========================
+  // ===============================
+  // !puntaje
+  // ===============================
   if (contenido.startsWith("!puntaje")) {
     const partes = contenido.split(" ");
     const usuarioMencionado = msg.mentions.users.first();
-    const modulo = partes[2];
-    if (!usuarioMencionado || !modulo) {
-      return msg.reply("Uso: !puntaje @usuario modulo");
+    const numeroModulo = parseInt(partes[2]);
+    if (!usuarioMencionado || isNaN(numeroModulo)) {
+      return msg.reply("Uso: !puntaje @usuario <número_modulo>");
     }
+    const modulos = Object.keys(PREGUNTAS);
+    const modulo = modulos[numeroModulo - 1];
+    if (!modulo) return msg.reply("❌ Ese número de módulo no existe.");
 
     const data = progreso[usuarioMencionado.id];
-    if (!data || data.modulo !== modulo) {
-      return msg.reply("No hay datos de ese usuario en ese módulo.");
-    }
+    if (!data || data.modulo !== modulo) return msg.reply("No hay registro de puntaje en ese módulo.");
 
-    return msg.reply(
-      `📊 Puntaje de ${usuarioMencionado.username} en **${modulo}**: ${data.puntos}/${PREGUNTAS[modulo].length}`
-    );
+    msg.reply(`📊 Puntaje de ${usuarioMencionado.username} en **${modulo}**: ${data.puntos}/${PREGUNTAS[modulo].length}`);
   }
 
-  // ========================
+  // ===============================
+  // !delete-exam
+  // ===============================
+  if (contenido.startsWith("!delete-exam") && msg.member.permissions.has("Administrator")) {
+    if (msg.channel.name.startsWith("examen-")) {
+      msg.channel.send("🗑️ Eliminando canal de examen...");
+      setTimeout(() => msg.channel.delete().catch(() => {}), 3000);
+    }
+    return;
+  }
+
+  // ===============================
   // Respuestas dentro del canal de examen
-  // ========================
-  const usuarioId = Object.keys(progreso).find(
-    (key) => progreso[key].canalId === msg.channel.id
-  );
+  // ===============================
+  const usuarioId = Object.keys(progreso).find(key => progreso[key].canalId === msg.channel.id);
+  if (!usuarioId) return;
 
-  if (!usuarioId) return; // No es canal de examen
-
-  const usuarioData = progreso[usuarioId];
-
-  // ⚠️ Evitar respuestas de otros usuarios
   if (msg.author.id !== usuarioId) {
     msg.reply("🚫 No se puede mandar mensaje en el examen de otro estudiante.");
     return;
   }
 
+  const data = progreso[usuarioId];
   const respuesta = msg.content.trim();
   if (!/^[1-9]\d*$/.test(respuesta)) return;
 
-  const { modulo, indice } = usuarioData;
+  const { modulo, indice } = data;
   const pregunta = PREGUNTAS[modulo][indice];
+  const preguntas = PREGUNTAS[modulo];
 
   if (respuesta === pregunta.respuesta.toString()) {
-    usuarioData.puntos++;
-    msg.reply("✅ ¡Correcto!");
+    data.puntos++;
+    msg.reply("✅ Correcto!");
   } else {
     const correcta = pregunta.opciones[pregunta.respuesta - 1];
     msg.reply(`❌ Incorrecto. La respuesta era: ${pregunta.respuesta}. ${correcta}`);
   }
 
-  const preguntas = PREGUNTAS[modulo];
   const siguiente = preguntas[indice + 1];
-
   if (!siguiente) {
     const total = preguntas.length;
-    const porcentaje = (usuarioData.puntos / total) * 100;
+    const porcentaje = (data.puntos / total) * 100;
 
     if (porcentaje < 60) {
-      msg.channel.send(`❌ Has reprobado, intenta repasar e intentarlo de nuevo en 24 h.\n📊 Puntuación: ${usuarioData.puntos}/${total}`);
-      usuarioData.bloqueadoHasta = Date.now() + 24 * 60 * 60 * 1000;
-      usuarioData.indice = 0;
-      usuarioData.puntos = 0;
+      msg.channel.send(`❌ Has reprobado, intenta repasar e intentarlo de nuevo en 24 h.\n📊 Puntuación: ${data.puntos}/${total}`);
+      data.puntos = 0;
+      data.indice = 0;
       guardarProgreso();
-      setTimeout(() => msg.channel.delete().catch(() => {}), 30000);
-      return;
+    } else {
+      msg.channel.send(`🎉 Felicitaciones, has aprobado el módulo.\n📊 Puntuación: ${data.puntos}/${total}`);
+
+      const modulos = Object.keys(PREGUNTAS);
+      const actualIndex = modulos.indexOf(modulo);
+      const siguienteModulo = modulos[actualIndex + 1];
+      const rol = msg.guild.roles.cache.find(r => r.name === ROLES[siguienteModulo]);
+      if (rol) {
+        const member = await msg.guild.members.fetch(msg.author.id);
+        member.roles.add(rol).catch(() => {});
+      }
+      data.modulo = siguienteModulo;
+      data.indice = 0;
+      data.puntos = 0;
+      guardarProgreso();
     }
-
-    msg.channel.send(`🎉 Felicitaciones, has aprobado el módulo.\n📊 Puntuación: ${usuarioData.puntos}/${total}`);
-
-    const modulos = Object.keys(PREGUNTAS);
-    const actualIndex = modulos.indexOf(modulo);
-    const siguienteModulo = modulos[actualIndex + 1];
-
-    const guildMember = await msg.guild.members.fetch(msg.author.id);
-    const rolSiguiente = ROLES[siguienteModulo];
-    if (rolSiguiente) {
-      const rol = msg.guild.roles.cache.find(r => r.name === rolSiguiente);
-      if (rol) await guildMember.roles.add(rol);
-    }
-
-    usuarioData.modulo = siguienteModulo;
-    usuarioData.indice = 0;
-    usuarioData.puntos = 0;
-    guardarProgreso();
 
     msg.channel.send("🕒 Este canal se eliminará en 30 segundos...");
     setTimeout(() => msg.channel.delete().catch(() => {}), 30000);
     return;
   }
 
-  usuarioData.indice++;
+  data.indice++;
   guardarProgreso();
-  setTimeout(() => enviarPregunta(msg.channel, usuarioId), 1500);
+  setTimeout(() => enviarPregunta(msg.channel, usuarioId), 2000);
 });
 
 client.once("ready", () => {
@@ -244,6 +222,7 @@ client.once("ready", () => {
 });
 
 client.login(process.env.TOKEN);
+
 
 
 
