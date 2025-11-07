@@ -13,6 +13,7 @@ const client = new Client({
 
 const PREGUNTAS = JSON.parse(fs.readFileSync("preguntas.json", "utf8"));
 const PROGRESO_FILE = "progreso.json";
+
 let progreso = fs.existsSync(PROGRESO_FILE)
   ? JSON.parse(fs.readFileSync(PROGRESO_FILE, "utf8"))
   : {};
@@ -73,7 +74,7 @@ async function crearCanalPrivado(guild, usuario) {
   return canal;
 }
 
-// Lógica principal
+// Evento principal
 client.on("messageCreate", async (msg) => {
   if (msg.author.bot) return;
   const id = msg.author.id;
@@ -85,27 +86,40 @@ client.on("messageCreate", async (msg) => {
   if (contenido.startsWith("!examen")) {
     if (!progreso[id]) {
       const primerModulo = Object.keys(PREGUNTAS)[0];
-      progreso[id] = { modulo: primerModulo, indice: 0, puntos: 0, canalId: null };
+      progreso[id] = { 
+        modulo: primerModulo, 
+        indice: 0, 
+        puntos: 0, 
+        canalId: null, 
+        bloqueadoHasta: null,
+        historial: {} 
+      };
       guardarProgreso();
     }
 
     const usuario = msg.author;
-    let canal;
+    const userData = progreso[id];
 
-    // Crear canal privado
-    if (progreso[id].canalId) {
-      canal = msg.guild.channels.cache.get(progreso[id].canalId);
-      if (!canal) progreso[id].canalId = null;
+    if (userData.bloqueadoHasta && Date.now() < userData.bloqueadoHasta) {
+      const falta = Math.ceil((userData.bloqueadoHasta - Date.now()) / 3600000);
+      msg.reply(`⏳ No puedes intentar de nuevo todavía. Faltan ${falta} h.`);
+      return;
     }
 
-    if (!progreso[id].canalId) {
+    let canal;
+    if (userData.canalId) {
+      canal = msg.guild.channels.cache.get(userData.canalId);
+      if (!canal) userData.canalId = null;
+    }
+
+    if (!userData.canalId) {
       canal = await crearCanalPrivado(msg.guild, usuario);
-      progreso[id].canalId = canal.id;
+      userData.canalId = canal.id;
       guardarProgreso();
-      canal.send(`👋 ¡Hola ${usuario.username}! Este es tu canal privado de examen del módulo **${progreso[id].modulo}**.`);
+      canal.send(`👋 ¡Hola ${usuario.username}! Este es tu canal privado para el examen del módulo **${userData.modulo}**.`);
       enviarPregunta(canal, id);
     } else {
-      canal.send(`🔄 Continuando tu examen del módulo **${progreso[id].modulo}**.`);
+      canal.send(`🔄 Continuando examen del módulo **${userData.modulo}**.`);
       enviarPregunta(canal, id);
     }
     return;
@@ -132,14 +146,22 @@ client.on("messageCreate", async (msg) => {
     if (!usuarioMencionado || isNaN(numeroModulo)) {
       return msg.reply("Uso: !puntaje @usuario <número_modulo>");
     }
+
     const modulos = Object.keys(PREGUNTAS);
     const modulo = modulos[numeroModulo - 1];
     if (!modulo) return msg.reply("❌ Ese número de módulo no existe.");
 
     const data = progreso[usuarioMencionado.id];
-    if (!data || data.modulo !== modulo) return msg.reply("No hay registro de puntaje en ese módulo.");
+    if (!data || !data.historial || !data.historial[modulo]) {
+      return msg.reply("❌ No hay registro de puntaje en ese módulo.");
+    }
 
-    msg.reply(`📊 Puntaje de ${usuarioMencionado.username} en **${modulo}**: ${data.puntos}/${PREGUNTAS[modulo].length}`);
+    const registro = data.historial[modulo];
+    const estado = registro.aprobado ? "✅ Aprobado" : "❌ Reprobado";
+
+    return msg.reply(
+      `📊 Puntaje de ${usuarioMencionado.username} en **${modulo}**:\n${registro.puntos}/${registro.total} (${estado})`
+    );
   }
 
   // ===============================
@@ -185,23 +207,32 @@ client.on("messageCreate", async (msg) => {
     const total = preguntas.length;
     const porcentaje = (data.puntos / total) * 100;
 
+    if (!data.historial) data.historial = {};
+
     if (porcentaje < 60) {
       msg.channel.send(`❌ Has reprobado, intenta repasar e intentarlo de nuevo en 24 h.\n📊 Puntuación: ${data.puntos}/${total}`);
+      data.historial[modulo] = { puntos: data.puntos, total, aprobado: false };
+      data.bloqueadoHasta = Date.now() + 24 * 60 * 60 * 1000;
       data.puntos = 0;
       data.indice = 0;
       guardarProgreso();
     } else {
       msg.channel.send(`🎉 Felicitaciones, has aprobado el módulo.\n📊 Puntuación: ${data.puntos}/${total}`);
+      data.historial[modulo] = { puntos: data.puntos, total, aprobado: true };
 
       const modulos = Object.keys(PREGUNTAS);
       const actualIndex = modulos.indexOf(modulo);
       const siguienteModulo = modulos[actualIndex + 1];
-      const rol = msg.guild.roles.cache.find(r => r.name === ROLES[siguienteModulo]);
-      if (rol) {
-        const member = await msg.guild.members.fetch(msg.author.id);
-        member.roles.add(rol).catch(() => {});
+
+      if (siguienteModulo) {
+        const rol = msg.guild.roles.cache.find(r => r.name === ROLES[siguienteModulo]);
+        if (rol) {
+          const member = await msg.guild.members.fetch(msg.author.id);
+          member.roles.add(rol).catch(() => {});
+        }
+        data.modulo = siguienteModulo;
       }
-      data.modulo = siguienteModulo;
+
       data.indice = 0;
       data.puntos = 0;
       guardarProgreso();
