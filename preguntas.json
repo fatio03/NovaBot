@@ -1,84 +1,174 @@
 {
-  "simbolos": [
+    "simbolos": [
     {
-      "pregunta": "El símbolo ∪ significa:",
+      "pregunta": "¿Qué significa el símbolo ∪?",
       "opciones": [
-        "Complemento",
-        "Diferencia",
         "Unión",
-        "Interseccion"
-      ],
-      "respuesta": 3
-    },
-    {
-      "pregunta": "El símbolo ∩ representa:",
-      "opciones": [
-        "Elementos que están en ambos conjuntos",
-        "Elementos que no están en ningún conjunto",
-        "Elementos que están en al menos uno de los conjuntos",
-        "Elementos del conjunto universal"
-      ],
-      "respuesta": 1
-    },
-    {
-      "pregunta": "El símbolo - representa:",
-      "opciones": [
-        "Complemento",
-        "Diferencia",
         "Intersección",
-        "Unión"
-      ],
-      "respuesta": 2
-    },
-    {
-      "pregunta": "El complemento A′ se forma con:",
-      "opciones": [
-        "Los elementos que están en A y B",
-        "Los elementos del universo que no pertenecen a A",
-        "Los elementos de A duplicados",
-        "Los elementos que solo están en B"
-      ],
-      "respuesta": 2
-    },
-    {
-      "pregunta": "En un diagrama de Venn, fuera del círculo A pero dentro del universo:",
-      "opciones": [
-        "Complemento",
-        "Unión",
         "Diferencia",
-        "Intersección"
+        "Complemento"
       ],
       "respuesta": 1
     },
     {
-      "pregunta": "Si U = {1,2,3,4,5,6,7} y A = {2,4,6}, entonces A′ =",
+      "pregunta": "¿Qué significa el símbolo ∩?",
       "opciones": [
-        "{4,5,6,7}",
-        "{1,3,5,7}",
-        "{1,2,3}",
-        "{2,4,6}"
+        "Unión",
+        "Intersección",
+        "Diferencia",
+        "Complemento"
       ],
       "respuesta": 2
     },
     {
-      "pregunta": "En programación, el complemento se asocia con:",
+      "pregunta": "¿Qué significa el símbolo −?",
       "opciones": [
-        "Multiplicación",
-        "Suma",
-        "Negación lógica (NOT)",
-        "Operador OR"
+        "Unión",
+        "Intersección",
+        "Diferencia",
+        "Complemento"
       ],
       "respuesta": 3
     },
     {
-      "pregunta": "El operador lógico para unión de conjuntos en programación se asemeja a:",
+      "pregunta": "¿Qué significa el símbolo A′?",
       "opciones": [
-        "&&",
-        "!",
-        "+=",
-        "||"
+        "Complemento",
+        "Unión",
+        "Diferencia",
+        "Subconjunto"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo ⊆?",
+      "opciones": [
+        "Subconjunto",
+        "Superconjunto",
+        "Conjunto vacío",
+        "Conjunto universal"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo ⊂?",
+      "opciones": [  
+        "Superconjunto",
+        "Unión de conjuntos",
+        "Conjunto potencia",
+        "Subconjunto propio"
       ],
       "respuesta": 4
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo ⊇?",
+      "opciones": [
+        "Superconjunto: A contiene a B",
+        "Subconjunto: A está dentro de B",
+        "Conjunto vacío",
+        "Complemento"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo ∅?",
+      "opciones": [
+        "Conjunto vacío: no tiene elementos",
+        "Conjunto universal: contiene todo",
+        "Complemento: fuera de A",
+        "Diferencia simétrica"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo U?",
+      "opciones": [
+        "Conjunto universal: conjunto de referencia",
+        "Unión de A y B",
+        "Subconjunto propio",
+        "Conjunto vacío"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo |A|?",
+      "opciones": [
+        "Cardinalidad: cantidad de elementos del conjunto A",
+        "Conjunto potencia",
+        "Conjunto universal",
+        "Unión total"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo V?",
+      "opciones": [    
+        "Variable",
+        "Verdadero",
+        "Vacío",
+        "Valor nulo"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo F?",
+      "opciones": [
+        "Falso",
+        "Función matemática",
+        "Factorial",
+        "Fracción"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo ¬?",
+      "opciones": [
+        "Negación: invierte el valor de verdad",
+        "Conjunción: ambas verdaderas",
+        "Disyunción: al menos una verdadera",
+        "Condicional lógico"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo ∧?",
+      "opciones": [
+        "Disyunción",
+        "Negación",
+        "Conjunción",
+        "Bicondicional"
+      ],
+      "respuesta": 3
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo ∨?",
+      "opciones": [
+        "Disyunción",
+        "Conjunción",
+        "Condicional",
+        "Negación"
+      ],
+      "respuesta": 1
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo →?",
+      "opciones": [
+        "Negación",
+        "Condicional",
+        "Bicondicional",
+        "Disyunción"
+      ],
+      "respuesta": 2
+    },
+    {
+      "pregunta": "¿Qué significa el símbolo ↔?",
+      "opciones": [
+        "Bicondicional",
+        "Condicional",
+        "Negación",
+        "Conjunción"
+      ],
+      "respuesta": 1
     }
   ],
   "teoria_de_conjuntos": [
